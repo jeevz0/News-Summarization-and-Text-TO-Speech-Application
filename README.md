@@ -1,0 +1,2 @@
+# News-Summarization-and-Text-TO-Speech-Application
+This web app extracts news articles on a given company, performs sentiment and comparative analysis, and generates a Hindi text-to-speech (TTS) summary. Using web scraping, NLP, and gTTS, it provides structured insights and audio output. Built with Python, FastAPI, Streamlit, and deployed on Hugging Face Spaces, it ensures seamless user interaction
