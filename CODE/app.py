@@ -1,3 +1,5 @@
+import patch_googletrans  # Apply the patch to fix googletrans issue
+from googletrans import Translator
 import streamlit as st
 import requests
 import json
@@ -37,10 +39,10 @@ def display_comparative_analysis(analysis):
     st.write(f"**Unique Topics:** {', '.join(analysis['topic_overlap']['unique_topics'])}")  # Unique topics
 
 # Asynchronous function to generate Hindi summary and audio file
-async def generate_hindi_summary_and_audio(text_summary):
+def generate_hindi_summary_and_audio(text_summary):
     # Translate the English summary to Hindi
     translator = Translator()
-    translated = await translator.translate(text_summary, src='en', dest='hi')
+    translated = translator.translate(text_summary, src='en', dest='hi')
     hindi_summary = translated.text  # Extract translated text
     
     # Convert the Hindi summary to audio using gTTS
@@ -79,17 +81,15 @@ def main():
                     st.write(final_summ["text_summary"])  # Display the final summary
                     
                     # Generate Hindi summary and TTS audio
-                    loop = asyncio.new_event_loop()
-                    asyncio.set_event_loop(loop)
-                    hindi_summary, audio_file_path = loop.run_until_complete(generate_hindi_summary_and_audio(final_summ["text_summary"]))
+                    hindi_summary, audio_file_path = generate_hindi_summary_and_audio(final_summ["text_summary"])
 
                     # Debugging lines to verify Hindi summary and audio file path
-                    st.write("Final Hindi Summary Check:", hindi_summary)
-                    st.write("Audio File Path:", audio_file_path)
+                    ##st.write("Final Hindi Summary Check:", hindi_summary)
+                    ##st.write("Audio File Path:", audio_file_path)
 
                     if hindi_summary:
                         st.write("### Hindi Summary")  # Subsection for Hindi summary
-                        st.write(hindi_summary)  # Display the Hindi summary
+                        ##st.write(hindi_summary)  # Display the Hindi summary
                         st.audio(audio_file_path)  # Play the generated audio
                     
                     # Prepare downloadable JSON output
